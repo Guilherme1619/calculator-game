@@ -16,18 +16,18 @@ all: $(OPENWINDOW) $(CALCULATOR)
 
 # Build openwindow
 $(OPENWINDOW): $(OPENWINDOW_SRC)
-	$(CXX) $(CXXFLAGS) $(OPENWINDOW_SRC) -o $(OPENWINDOW) $(RAYLIB_FLAGS)
+	$(CXX) $(CXXFLAGS) $(OPENWINDOW_SRC) -o $(OPENWINDOW)
 
 # Build calculator
 $(CALCULATOR): $(CALCULATOR_SRC)
 	$(CXX) $(CXXFLAGS) $(CALCULATOR_SRC) -o $(CALCULATOR)
 
 # Run openwindow
-run-window: $(OPENWINDOW)
+run-openwindow: $(OPENWINDOW)
 	./$(OPENWINDOW)
 
 # Run calculator
-run-calc: $(CALCULATOR)
+run-calculator: $(CALCULATOR)
 	./$(CALCULATOR)
 
 # Clean compiled files
