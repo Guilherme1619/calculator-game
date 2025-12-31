@@ -7,7 +7,7 @@ int main()
     InitWindow(width, height, "Guizado window");
 
     SetTargetFPS(60);
-    while (WindowShouldClose()==false)
+    while (WindowShouldClose() == false)
     {
         BeginDrawing();
         ClearBackground(DARKBLUE);
