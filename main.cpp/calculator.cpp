@@ -1,53 +1,36 @@
 #include <iostream>
 #include <iomanip>
+#include <string>
+
 using namespace std;
+
+string calculate(double a, double b, char n) {
+    if(n == '+') return to_string(a + b);
+    if(n == '-') return to_string(a - b);
+    if(n == '*') return to_string(a * b);
+    if(n == '/' && b != 0) return to_string(a / b);
+    if(n == '/' && b == 0) return "Error: Division by zero";
+    if(n != '+' && n != '-' && n != '*' && n != '/') {
+        cout << "Error, invalid function" << endl;
+    return 0;
+    }
+}
 
 int main() {
     char n;
-    cout << "Select function: + - * /: ";
+    double a, b;
+
+    cout << "Enter operation (+, -, *, /): ";
     cin >> n;
 
-    if (n != '+' && n != '-' && n != '*' && n != '/') {
-        cout << "Error, invalid function" << endl;
-        return 1;
-    } 
-    
-    double a, b, c = 0;
-    cout << "First number: ";
+    cout << "Enter first number: ";
     cin >> a;
-    cout << "Second number: ";
+
+    cout << "Enter second number: ";
     cin >> b;
 
-    if (n == '+') {
-        c = a + b;
-        cout << a << " + " << b << " = " << c << endl;
-    } else if (n == '-') {
-        c = a - b;
-        cout << a << " - " << b << " = " << c << endl;
-    } else if (n == '*') {
-        c = a * b;
-        cout << a << " * " << b << " = " << c << endl;
-    } else if (n == '/') {
-        if (b != 0) {
-            c = a / b;
-            cout << a << " / " << b << " = " << c << endl;
-        } else {
-            cout << "Can't divide by zero" << endl;
-            return 1;
-        }
-    }
-
-    char r;
-    cout << "Round to 3 s.f.? (y/n): ";
-    cin >> r;
-    if (r == 'y') {
-        cout << defaultfloat << setprecision(3);
-        cout << "Final value = " << c << endl;
-    } else if (r == 'n') {
-        cout << "Final value = " << c << endl;
-    } else {
-        cout << "Invalid answer" << endl;
-    }
+    string c = calculate(a, b, n);
+    cout << c << endl;
 
     return 0;
 }
