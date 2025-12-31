@@ -35,6 +35,3 @@ clean:
 	rm -f $(OPENWINDOW) $(CALCULATOR)
 
 .PHONY: all clean run-window run-calc
-
-
-

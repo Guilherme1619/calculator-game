@@ -1,7 +1,6 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
-
 using namespace std;
 
 string calculate(double a, double b, char n) {
