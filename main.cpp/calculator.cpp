@@ -41,7 +41,7 @@ int main() {
     cout << "Round to 3 s.f.? (y/n): ";
     cin >> r;
     if (r == 'y') {
-        cout << setprecision(3);
+        cout << defaultfloat << setprecision(3);
         cout << "Final value = " << c << endl;
     } else if (r == 'n') {
         cout << "Final value = " << c << endl;
