@@ -5,24 +5,24 @@ RAYLIB_FLAGS = -I/opt/homebrew/include -L/opt/homebrew/lib -lraylib \
                -framework CoreVideo -framework IOKit -framework Cocoa -framework OpenGL
 
 # Source files
-OPENWINDOW_SRC = main-code/openwindow.cpp
+MAIN_SRC = main.cpp
 
 # Executables
-OPENWINDOW = openwindow
+MAIN = main
 
 # Default target
-all: $(OPENWINDOW)
+all: $(MAIN)
 
-# Build openwindow
-$(OPENWINDOW): $(OPENWINDOW_SRC)
-	$(CXX) $(CXXFLAGS) $(OPENWINDOW_SRC) -o $(OPENWINDOW) $(RAYLIB_FLAGS)
+# Build main
+$(MAIN): $(MAIN_SRC)
+	$(CXX) $(CXXFLAGS) $(MAIN_SRC) -o $(MAIN) $(RAYLIB_FLAGS)
 
-# Run openwindow
-run-openwindow: $(OPENWINDOW)
-	./$(OPENWINDOW)
+# Run main
+run-main: $(MAIN)
+	./$(MAIN)
 
 # Clean compiled files
 clean:
-	rm -f $(OPENWINDOW)
+	rm -f $(MAIN)
 
-.PHONY: all clean run-openwindow
+.PHONY: all clean run-main

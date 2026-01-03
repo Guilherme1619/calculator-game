@@ -27,6 +27,7 @@ string calculate(double a, double b, char n) {
         ostringstream out;
         out << fixed << setprecision(3) << (a / b);
         return out.str();
+    return "Error";
     }
 }
 
@@ -44,9 +45,9 @@ int main() {
     int rectangle_x = 200;
     int rectangle_y = 200;
 
-    char n = 0;
     double a = 0;
     double b = 0;
+    char n = ' ';
 
     bool aEntered = false;
     bool bEntered = false;
@@ -73,7 +74,7 @@ int main() {
         }
 
         if (IsKeyPressed(KEY_ENTER)) {
-            if (nEntered == false && (n == '+' || n == '-' || n == '*' || n == '/')) {
+            if (nEntered == false && n != ' ') {
                 nEntered = true;
             }
             else if (aEntered == false && inputA != "") {
@@ -98,6 +99,18 @@ int main() {
             }
         }
 
+        if (IsKeyPressed(KEY_R)) {
+            aEntered = false;
+            bEntered = false;
+            nEntered = false;
+            inputA = "";
+            inputB = "";
+            inputN = "";
+            n = ' ';
+            a = 0;
+            b = 0;
+        }
+
 // Draw the window and display prompts/results
 
         BeginDrawing();
@@ -106,7 +119,7 @@ int main() {
         DrawRectangle(rectangle_x, rectangle_y, 800, 300, LIGHTGRAY);
 
         DrawText("Operator:", rectangle_x + 20, rectangle_y + 20, 20, BLACK);
-        DrawText(TextFormat("%c", n == 0 ? '_' : n), rectangle_x + 150, rectangle_y + 20, 20, BLACK);
+        DrawText(TextFormat("%c", n == ' ' ? '_' : n), rectangle_x + 150, rectangle_y + 20, 20, BLACK);
 
         DrawText(("A: " + inputA).c_str(), rectangle_x + 20, rectangle_y + 70, 20, BLACK);
 
@@ -115,6 +128,9 @@ int main() {
         if (nEntered == false) {
             DrawText("Enter operator (+, -, *, /) and press Enter", rectangle_x + 20, rectangle_y + 220, 20, RED);
         }
+        else if (nEntered == true && n != '+' && n != '-' && n != '*' && n != '/') {
+            DrawText("Error: Invalid Operator", 20, 50, 70, RED);
+        }
         else if (aEntered == false) {
             DrawText("Enter value for A and press Enter", rectangle_x + 20, rectangle_y + 220, 20, RED);
         }
@@ -122,17 +138,12 @@ int main() {
             DrawText("Enter value for B and press Enter", rectangle_x + 20, rectangle_y + 220, 20, RED);
         }
 
-        if (aEntered == true && bEntered == true && nEntered == true) {
+        if (aEntered == true && bEntered == true && nEntered == true && ((n == '/' && b != 0) || n != '/')) {
             string result = calculate(a, b, n);
             DrawText(("Result: " + result).c_str(), 20, 50, 70, WHITE);
         }
-
-        if (n == "/" && b == 0) {
+        else if (nEntered == true && n == '/' && bEntered == true && b == 0) {
             DrawText("Error: Division by zero", 20, 50, 70, RED);
-        }
-
-        if (nEntered == true && n != '+' && n != '-' && n != '*' && n != '/') {
-            DrawText("Error: Invalid Operator", 20, 50, 70, RED);
         }
 
         EndDrawing();
@@ -140,4 +151,5 @@ int main() {
     CloseWindow();
     return 0;
 }
-//make openwindow && ./openwindow
+//make main && ./main
+//./main
