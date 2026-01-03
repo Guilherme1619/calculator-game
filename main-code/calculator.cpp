@@ -29,7 +29,7 @@ int main() {
     cin >> b;
 
     string c = calculate(a, b, n);
-    cout << c << endl;
+    cout << c << setprecision(3) << endl;
 
     return 0;
 }

@@ -1,11 +1,12 @@
 # Compiler and flags
 CXX = g++
-CXXFLAGS = -std=c++11
-RAYLIB_FLAGS = -I/opt/homebrew/include -L/opt/homebrew/lib -lraylib -framework CoreVideo -framework IOKit -framework Cocoa -framework GLUT -framework OpenGL
+CXXFLAGS = -std=c++17 -arch arm64
+RAYLIB_FLAGS = -I/opt/homebrew/include -L/opt/homebrew/lib -lraylib \
+               -framework CoreVideo -framework IOKit -framework Cocoa -framework OpenGL
 
 # Source files
-OPENWINDOW_SRC = main.cpp/openwindow.cpp
-CALCULATOR_SRC = main.cpp/calculator.cpp
+OPENWINDOW_SRC = main-code/openwindow.cpp
+CALCULATOR_SRC = main-code/calculator.cpp
 
 # Executables
 OPENWINDOW = openwindow
@@ -16,7 +17,7 @@ all: $(OPENWINDOW) $(CALCULATOR)
 
 # Build openwindow
 $(OPENWINDOW): $(OPENWINDOW_SRC)
-	$(CXX) $(CXXFLAGS) $(OPENWINDOW_SRC) -o $(OPENWINDOW)
+	$(CXX) $(CXXFLAGS) $(OPENWINDOW_SRC) -o $(OPENWINDOW) $(RAYLIB_FLAGS)
 
 # Build calculator
 $(CALCULATOR): $(CALCULATOR_SRC)
