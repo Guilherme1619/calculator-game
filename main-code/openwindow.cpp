@@ -38,6 +38,7 @@ int main() {
 
     bool aEntered = false;
     bool bEntered = false;
+    bool nEntered = false;
 
     InitWindow(width, height, "Calculator Game");
     SetTargetFPS(60);
@@ -48,7 +49,7 @@ int main() {
 
         int key = GetCharPressed();
         if (key >= 32 && key <= 126) {
-            if (n == 0) {
+            if (nEntered == false) {
                 n = (char)key;
             }
             else if (aEntered == false) {
@@ -60,13 +61,28 @@ int main() {
         }
 
         if (IsKeyPressed(KEY_ENTER)) {
-            if (aEntered == false && inputA != "") {
+            if (nEntered == false && (n == '+' || n == '-' || n == '*' || n == '/')) {
+                nEntered = true;
+            }
+            else if (aEntered == false && inputA != "") {
                 a = stod(inputA);
                 aEntered = true;
             }
             else if (bEntered == false && inputB != "") {
                 b = stod(inputB);
                 bEntered = true;
+            }
+        }
+
+        if (IsKeyPressed(KEY_BACKSPACE)) {
+            if (nEntered == false) {
+                n = 0;
+            }
+            else if (aEntered == false && inputA.length() > 0) {
+                inputA.pop_back();
+            }
+            else if (bEntered == false && inputB.length() > 0) {
+                inputB.pop_back();
             }
         }
 
@@ -84,9 +100,19 @@ int main() {
 
         DrawText(("B: " + inputB).c_str(), rectangle_x + 20, rectangle_y + 110, 20, BLACK);
 
-        if (aEntered == true && bEntered == true && n != 0) {
+        if (nEntered == false) {
+            DrawText("Enter operator (+, -, *, /) and press Enter", rectangle_x + 20, rectangle_y + 220, 20, RED);
+        }
+        else if (aEntered == false) {
+            DrawText("Enter value for A and press Enter", rectangle_x + 20, rectangle_y + 220, 20, RED);
+        }
+        else if (bEntered == false) {
+            DrawText("Enter value for B and press Enter", rectangle_x + 20, rectangle_y + 220, 20, RED);
+        }
+
+        if (aEntered == true && bEntered == true && nEntered == true) {
             string result = calculate(a, b, n);
-            DrawText(("Result: " + result).c_str(), rectangle_x + 20, rectangle_y + 160, 20, BLACK);
+            DrawText(("Result: " + result).c_str(), 250, 50, 80, WHITE);
         }
 
         EndDrawing();
@@ -94,3 +120,4 @@ int main() {
     CloseWindow();
     return 0;
 }
+//make openwindow && ./openwindow
