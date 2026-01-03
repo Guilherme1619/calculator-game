@@ -32,7 +32,7 @@ int main() {
     int rectangle_x = 200;
     int rectangle_y = 200;
 
-    char n = 'w';
+    char n = 0;
     double a = 0;
     double b = 0;
 
@@ -48,7 +48,7 @@ int main() {
 
         int key = GetCharPressed();
         if (key >= 32 && key <= 126) {
-            if (n == 'w') {
+            if (n == 0) {
                 n = (char)key;
             }
             else if (aEntered == false) {
