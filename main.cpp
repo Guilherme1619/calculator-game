@@ -2,19 +2,31 @@
 #include <iomanip>
 #include <string>
 #include <raylib.h>
+#include <sstream>
 using namespace std;
 
 // Function to perform calculation based on operator
 
 string calculate(double a, double b, char n) {
-    if(n == '+') return to_string(a + b);
-    if(n == '-') return to_string(a - b);
-    if(n == '*') return to_string(a * b);
-    if(n == '/' && b != 0) return to_string(a / b);
-    if(n == '/' && b == 0) return "Error: Division by zero";
-    if(n != '+' && n != '-' && n != '*' && n != '/') {
-        cout << "Error, invalid function" << endl;
-    return "error";
+    if(n == '+') {
+        ostringstream out;
+        out << fixed << setprecision(3) << (a + b);
+        return out.str();
+    }
+    if(n == '-') {
+        ostringstream out;
+        out << fixed << setprecision(3) << (a - b);
+        return out.str();
+    }
+    if(n == '*') {    
+        ostringstream out;
+        out << fixed << setprecision(3) << (a * b);
+        return out.str();
+    }
+    if(n == '/' && b != 0){
+        ostringstream out;
+        out << fixed << setprecision(3) << (a / b);
+        return out.str();
     }
 }
 
@@ -112,7 +124,15 @@ int main() {
 
         if (aEntered == true && bEntered == true && nEntered == true) {
             string result = calculate(a, b, n);
-            DrawText(("Result: " + result).c_str(), 250, 50, 80, WHITE);
+            DrawText(("Result: " + result).c_str(), 20, 50, 70, WHITE);
+        }
+
+        if (n == "/" && b == 0) {
+            DrawText("Error: Division by zero", 20, 50, 70, RED);
+        }
+
+        if (nEntered == true && n != '+' && n != '-' && n != '*' && n != '/') {
+            DrawText("Error: Invalid Operator", 20, 50, 70, RED);
         }
 
         EndDrawing();

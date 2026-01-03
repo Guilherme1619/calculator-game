@@ -6,33 +6,23 @@ RAYLIB_FLAGS = -I/opt/homebrew/include -L/opt/homebrew/lib -lraylib \
 
 # Source files
 OPENWINDOW_SRC = main-code/openwindow.cpp
-CALCULATOR_SRC = main-code/calculator.cpp
 
 # Executables
 OPENWINDOW = openwindow
-CALCULATOR = calculator
 
 # Default target
-all: $(OPENWINDOW) $(CALCULATOR)
+all: $(OPENWINDOW)
 
 # Build openwindow
 $(OPENWINDOW): $(OPENWINDOW_SRC)
 	$(CXX) $(CXXFLAGS) $(OPENWINDOW_SRC) -o $(OPENWINDOW) $(RAYLIB_FLAGS)
 
-# Build calculator
-$(CALCULATOR): $(CALCULATOR_SRC)
-	$(CXX) $(CXXFLAGS) $(CALCULATOR_SRC) -o $(CALCULATOR)
-
 # Run openwindow
 run-openwindow: $(OPENWINDOW)
 	./$(OPENWINDOW)
 
-# Run calculator
-run-calculator: $(CALCULATOR)
-	./$(CALCULATOR)
-
 # Clean compiled files
 clean:
-	rm -f $(OPENWINDOW) $(CALCULATOR)
+	rm -f $(OPENWINDOW)
 
-.PHONY: all clean run-window run-calc
+.PHONY: all clean run-openwindow
