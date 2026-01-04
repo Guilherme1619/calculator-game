@@ -5,65 +5,72 @@
 #include <sstream>
 using namespace std;
 
-// Function to perform calculation based on operator
+// Calculator
 
-string calculate(double a, double b, char n) {
-    if(n == '+') {
+int s = 8;
+
+string calculate(double a, double b, char op, int s) {
+    if(op == '+') {
         ostringstream out;
-        out << fixed << setprecision(3) << (a + b);
+        out << setprecision(s) << (a + b);
         return out.str();
     }
-    if(n == '-') {
+    if(op == '-') {
         ostringstream out;
-        out << fixed << setprecision(3) << (a - b);
+        out << setprecision(s) << (a - b);
         return out.str();
     }
-    if(n == '*') {    
+    if(op == '*') {    
         ostringstream out;
-        out << fixed << setprecision(3) << (a * b);
+        out << setprecision(s) << (a * b);
         return out.str();
     }
-    if(n == '/' && b != 0){
+    if(op == '/' && b != 0){
         ostringstream out;
-        out << fixed << setprecision(3) << (a / b);
+        out << setprecision(s) << (a / b);
         return out.str();
-    return "Error";
     }
+return "Error";
 }
 
-// Main function to create window and handle user input
+// Main
 
 int main() {
 
     string inputA = "";
     string inputB = "";
-    string inputN = "";
+    string inputOp = "";
+    string inputS = "8";
 
-    int width{1200};
-    int height{700};
+    int width{1000}; //x
+    int height{600}; //y
     
-    int rectangle_x = 200;
-    int rectangle_y = 200;
+    int rectangle_x = 60;
+    int rectangle_y = 150;
 
     double a = 0;
     double b = 0;
-    char n = ' ';
+    char op = ' ';
+    int s = 8;
 
     bool aEntered = false;
     bool bEntered = false;
-    bool nEntered = false;
+    bool opEntered = false;
+    bool sEntered = false;
 
-    InitWindow(width, height, "Calculator Game");
+// Window
+
+    InitWindow(width, height, "Calculator");
     SetTargetFPS(60);
 
     while (WindowShouldClose()==false) {
 
-// Handle user input
+// Input
 
         int key = GetCharPressed();
-        if (key >= 32 && key <= 126) {
-            if (nEntered == false) {
-                n = (char)key;
+        if (key >= 32 && key <= 126 && key != 102 && key != 114) {
+            if (opEntered == false) {
+                op = (char)key;
             }
             else if (aEntered == false) {
                 inputA += (char)key;
@@ -71,11 +78,16 @@ int main() {
             else if (bEntered == false) {
                 inputB += (char)key;
             }
+            else if (sEntered == false) {
+                inputS += (char)key;
+            }
         }
 
+// Enter
+
         if (IsKeyPressed(KEY_ENTER)) {
-            if (nEntered == false && n != ' ') {
-                nEntered = true;
+            if (opEntered == false && op != ' ') {
+                opEntered = true;
             }
             else if (aEntered == false && inputA != "") {
                 a = stod(inputA);
@@ -85,11 +97,17 @@ int main() {
                 b = stod(inputB);
                 bEntered = true;
             }
+            else if (sEntered == false && inputS != "") {
+                s = stod(inputS);
+                sEntered = true;
+            }
         }
 
+// Delete
+
         if (IsKeyPressed(KEY_BACKSPACE)) {
-            if (nEntered == false) {
-                n = 0;
+            if (opEntered == false) {
+                op = 0;
             }
             else if (aEntered == false && inputA.length() > 0) {
                 inputA.pop_back();
@@ -97,38 +115,59 @@ int main() {
             else if (bEntered == false && inputB.length() > 0) {
                 inputB.pop_back();
             }
+            else if (sEntered == false && inputS.length() > 0) {
+                inputS.pop_back();
+            }
         }
+
+// Reset
 
         if (IsKeyPressed(KEY_R)) {
             aEntered = false;
             bEntered = false;
-            nEntered = false;
+            opEntered = false;
+            sEntered = false;
             inputA = "";
             inputB = "";
-            inputN = "";
-            n = ' ';
+            inputOp = "";
+            inputS = "";
+            op = ' ';
             a = 0;
             b = 0;
+            s = 8;
         }
 
-// Draw the window and display prompts/results
+// Fullscreen
+    if (IsKeyPressed(KEY_F)) {
+        ToggleFullscreen();
+    }
+        
+// Draw
 
         BeginDrawing();
-        ClearBackground(DARKBLUE);
+        ClearBackground(BLACK);
 
-        DrawRectangle(rectangle_x, rectangle_y, 800, 300, LIGHTGRAY);
+        DrawRectangle(rectangle_x, rectangle_y, 880, 300, LIGHTGRAY);
 
         DrawText("Operator:", rectangle_x + 20, rectangle_y + 20, 20, BLACK);
-        DrawText(TextFormat("%c", n == ' ' ? '_' : n), rectangle_x + 150, rectangle_y + 20, 20, BLACK);
+        DrawText(TextFormat("%c", op == ' ' ? '_' : op), rectangle_x + 150, rectangle_y + 20, 20, BLACK);
 
         DrawText(("A: " + inputA).c_str(), rectangle_x + 20, rectangle_y + 70, 20, BLACK);
 
         DrawText(("B: " + inputB).c_str(), rectangle_x + 20, rectangle_y + 110, 20, BLACK);
 
-        if (nEntered == false) {
+        DrawText(("Significant Figures: " + inputS).c_str(), rectangle_x + 20, rectangle_y + 150, 20, BLACK);
+
+        DrawText("[R] to Reset", rectangle_x + 20, rectangle_y + 250, 20, RED);
+
+        DrawText("[F] for Fullscreen ] [", 720, 20, 25, RED);
+
+// User Guide
+
+        if (opEntered == false) {
             DrawText("Enter operator (+, -, *, /) and press Enter", rectangle_x + 20, rectangle_y + 220, 20, RED);
         }
-        else if (nEntered == true && n != '+' && n != '-' && n != '*' && n != '/') {
+        else if (opEntered == true && op != '+' && op != '-' && op != '*' && op != '/') {
             DrawText("Error: Invalid Operator", 20, 50, 70, RED);
         }
         else if (aEntered == false) {
@@ -137,12 +176,17 @@ int main() {
         else if (bEntered == false) {
             DrawText("Enter value for B and press Enter", rectangle_x + 20, rectangle_y + 220, 20, RED);
         }
+        else if (sEntered == false) {
+            DrawText("Enter significant figures and press Enter", rectangle_x + 20, rectangle_y + 220, 20, RED);
+        }
 
-        if (aEntered == true && bEntered == true && nEntered == true && ((n == '/' && b != 0) || n != '/')) {
-            string result = calculate(a, b, n);
+// Display Result
+
+        if (aEntered == true && bEntered == true && opEntered == true && ((op == '/' && b != 0) || op != '/') && sEntered == true) {
+            string result = calculate(a, b, op, s);
             DrawText(("Result: " + result).c_str(), 20, 50, 70, WHITE);
         }
-        else if (nEntered == true && n == '/' && bEntered == true && b == 0) {
+        else if (opEntered == true && op == '/' && bEntered == true && b == 0) {
             DrawText("Error: Division by zero", 20, 50, 70, RED);
         }
 
