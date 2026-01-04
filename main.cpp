@@ -7,8 +7,6 @@ using namespace std;
 
 // Calculator
 
-int s = 8;
-
 string calculate(double a, double b, char op, int s) {
     if(op == '+') {
         ostringstream out;
@@ -39,7 +37,6 @@ int main() {
 
     string inputA = "";
     string inputB = "";
-    string inputOp = "";
     string inputS = "8";
 
     int width{1000}; //x
@@ -98,7 +95,11 @@ int main() {
                 bEntered = true;
             }
             else if (sEntered == false && inputS != "") {
-                s = stod(inputS);
+                s = abs(stoi(inputS));
+                if (s == 0) {
+                    s = 1;
+                    inputS = "1";
+                }
                 sEntered = true;
             }
         }
@@ -129,8 +130,7 @@ int main() {
             sEntered = false;
             inputA = "";
             inputB = "";
-            inputOp = "";
-            inputS = "";
+            inputS = "8";
             op = ' ';
             a = 0;
             b = 0;
@@ -150,13 +150,16 @@ int main() {
         DrawRectangle(rectangle_x, rectangle_y, 880, 300, LIGHTGRAY);
 
         DrawText("Operator:", rectangle_x + 20, rectangle_y + 20, 20, BLACK);
-        DrawText(TextFormat("%c", op == ' ' ? '_' : op), rectangle_x + 150, rectangle_y + 20, 20, BLACK);
+        DrawText(TextFormat("%c", op == ' ' ? '_' : op), rectangle_x + 140, rectangle_y + 20, 20, BLACK);
 
-        DrawText(("A: " + inputA).c_str(), rectangle_x + 20, rectangle_y + 70, 20, BLACK);
+        DrawText("A: ", rectangle_x + 20, rectangle_y + 70, 20, BLACK);
+        DrawText(TextFormat("%s", inputA == "" ? "_" : inputA.c_str()), rectangle_x + 55, rectangle_y + 70, 20, BLACK);
 
-        DrawText(("B: " + inputB).c_str(), rectangle_x + 20, rectangle_y + 110, 20, BLACK);
+        DrawText("B: ", rectangle_x + 20, rectangle_y + 110, 20, BLACK);
+        DrawText(TextFormat("%s", inputB == "" ? "_" : inputB.c_str()), rectangle_x + 55, rectangle_y + 110, 20, BLACK);
 
-        DrawText(("Significant Figures: " + inputS).c_str(), rectangle_x + 20, rectangle_y + 150, 20, BLACK);
+        DrawText("Significant Figures: ", rectangle_x + 20, rectangle_y + 150, 20, BLACK);
+        DrawText(TextFormat("%s", sEntered == true ? to_string(s).c_str() : ( inputS == "" ? "_" : inputS.c_str())), rectangle_x + 235, rectangle_y + 150, 20, BLACK);
 
         DrawText("[R] to Reset", rectangle_x + 20, rectangle_y + 250, 20, RED);
 
